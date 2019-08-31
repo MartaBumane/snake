@@ -4,30 +4,28 @@ import { Snake, Direction } from './engine/Snake'
 import { Game, Cell } from './engine/Game'
 
 const game = new Game();
+let appleInGame = game.getApple()
+
 
 const isAppleInside=(x:number, y:number)=>{
-  const apple = game.getApple();
-  return apple.x === x && apple.y === y
+  return appleInGame.x === x && appleInGame.y === y
 
 }
-
-
 const snake = new Snake(isAppleInside);
 
 const cssClass = (x: number, y:number): string=>{
   if(snake.isOnCell(x,y)){
     return 'snake'
   }
-  const apple = game.getApple()
-  if(apple.x===x&&apple.y===y){
+  if(appleInGame.x===x&&appleInGame.y===y){
     return 'apple'
   }
     return ''
   
 }
 
-const width = 25;
-const height = 25;
+const width = game.field.fieldWidth;
+const height = game.field.fieldHeight;
 
 
 function parseDirection(e: KeyboardEvent): Direction | null {
@@ -57,14 +55,27 @@ document.addEventListener('keyup', (e)=>{
 
 const App: React.FC = () => {
   const [cells, setCells] = useState<Cell[]>(snake.getCells());
+  const [apple, setApple] = useState<Cell>(game.getRandomApple(snake.cells, game.cells));
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
-  setTimeout(()=>{
-    snake.move();
-    setCells(snake.getCells());
-  },250)
+  appleInGame = apple;
 
+  if(game.isSnakeInSamePositionWithApple(snake.cells, apple)){
+    snake.move();    
+    setApple(game.getRandomApple(cells, game.cells))
+    setCells([...cells]);
+  }else{
+    setTimeout(()=>{
+      snake.move();
+      setCells([...cells]);
+    },350)
 
-  return (<div>
+  }
+
+  console.log(snake.isGameOver(snake.getCells()));
+
+  return (<div className='App'>
+    <h1>Snake</h1>
     <table>
       <tbody>
         {Array(height)

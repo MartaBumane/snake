@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -7,57 +7,37 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  background-size: cover;
-  background-position: 50% 50%;
-}
-table {
-  border: white solid 1px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-spacing: 1px;
 }
 
+table {
+  border: #cecece solid 1px;
+  border-spacing: 1px;
+
+ }
+
 table td {
-  width: 20px;
-  height: 20px;
-  margin: none;
-  padding: 0;
+  width: 8px;
+  height: 8px;
   border: none;
+  margin: 0;
+  padding: 0;
 }
 
 table td.snake {
-  background: #E94B3CFF;
-  background-size: contain;
+  background-color: #cddbf6;
+}
+
+table td.wall {
+  background-color: #39da19;
 }
 
 table td.apple {
-  background: green;
-  background-size: contain;
-}
-
-.head {
-  background-color: #CDB599FF !important;
-  z-index: 9999;
-}
-
-.headline {
-  max-width: 250px;
-  margin: 0 auto;
-}
-
-h1 {
-  background: #E94B3CFF;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
-
-img {
-  position: absolute;
-  max-width: 300px;
-  width: 100%;
-  z-index: 999;
+  background-color: red;
 }
 
 
-.hide {
-  display: none;
+.gameOver {
+  background-color: rgb(230, 230, 127);
+  color: black;
+  
 }

@@ -1,5 +1,7 @@
 import {Snake, Direction} from './Snake'
-import { Cell } from './Game'
+import { Cell, Game } from './Game'
+const game = new Game();
+const fieldLength = game.field.fieldHeight * game.field.fieldWidth
 
 describe('Snake', ()=>{
     it('should have initial position', ()=>{
@@ -134,6 +136,92 @@ describe('Snake', ()=>{
 
     })
 
+    it('should be able to go through walls', ()=>{
+        const snake = new Snake();
+        
+        for (let index = 0; index < 23; index++) {
+            snake.move();            
+        }
+        let cells = snake.getCells();       
+
+        expect(cells).toEqual(
+            [
+                new Cell (23,0),
+                new Cell (24,0),
+                new Cell (0,0)
+            ]
+        );
+        
+        snake.changeDirection(Direction.South);
+        snake.move();
+        snake.changeDirection(Direction.West);
+        snake.move();
+
+
+        cells = snake.getCells();
+
+        expect(cells).toEqual(
+            [
+                new Cell (0,0),
+                new Cell (0,1),
+                new Cell (24,1)
+            ]
+        );
+
+        snake.changeDirection(Direction.South);
+
+        for (let index = 0; index < 24; index++) {
+            snake.move();            
+        }
+
+        cells = snake.getCells();
+
+        expect(cells).toEqual(
+            [
+                new Cell (24,23),
+                new Cell (24,24),
+                new Cell (24,0)
+            ]
+        );
+
+        snake.changeDirection(Direction.West);
+        snake.move();
+        snake.changeDirection(Direction.North);
+        snake.move();
+
+
+        cells = snake.getCells();
+
+        expect(cells).toEqual(
+            [
+                new Cell (24,0),
+                new Cell (23,0),
+                new Cell (23,24)
+            ]
+        );
+    })
+
+    it('should be game over, when snake reach its tail', ()=>{
+        const snake = new Snake();
+        snake.cells= [
+            new Cell (0,0),
+            new Cell (1,0),
+            new Cell (2,0),
+            new Cell (3,0),
+            new Cell (4,0)
+        ]
+
+        snake.changeDirection(Direction.South)
+        snake.move();
+        snake.changeDirection(Direction.West);
+        snake.move();
+        snake.changeDirection(Direction.North);
+        snake.move();
+        const result = snake.isGameOver(snake.cells);
+        expect(result).toBeTruthy()
+
+    })
+   
 
 
 
