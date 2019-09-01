@@ -9,6 +9,8 @@ export enum Direction{
     East=4
 }
 export class Snake{
+
+    arrWithDirections: Direction[] = [];
     direction: Direction= Direction.East;
     cells:Cell[] = [
         new Cell (0,0),
@@ -33,16 +35,46 @@ export class Snake{
        return [...this.cells]
     }
 
-    move(){
+    
+    isGameOver(): boolean{
+        if(this.direction === Direction.North){
+            if(this.isOnCell(this.cells[this.cells.length-1].x, this.cells[this.cells.length-1].y-1)){
+                return true;
+            }
+        }
+        if(this.direction === Direction.South){
+            if(this.isOnCell(this.cells[this.cells.length-1].x, this.cells[this.cells.length-1].y+1)){
+                return true;
+            }
+        }
+        if(this.direction === Direction.East){
+            if(this.isOnCell(this.cells[this.cells.length-1].x+1, this.cells[this.cells.length-1].y)){
+                return true;
+            }
+        }
+        if(this.direction === Direction.West){
+            if(this.isOnCell(this.cells[this.cells.length-1].x-1, this.cells[this.cells.length-1].y)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    getDirection(){
+        return this.direction;
+    }
+
+    updatePosition(){
         const head = this.cells[this.cells.length-1];
 
         if(head.x>game.field.fieldWidth-1){
             this.cells[this.cells.length-1].x=0;
         } 
-        
+
         if(!this.isAppleInside||!this.isAppleInside(head.x, head.y)){
             this.cells.shift();
         }
+
         
         if(this.direction ===Direction.East){
             this.cells.push(new Cell(head.x+1, head.y))
@@ -74,31 +106,39 @@ export class Snake{
         }
     }
 
-    isGameOver(snake: Cell[]): boolean{
-        console.log(snake)
-
-        for(let i = 0;i<snake.length;i++){
-            if(snake[snake.length-1].x===snake[i].x && snake[snake.length-1].y===snake[i].y){
-              return true;  
-            }
+    move(){
+        if(this.arrWithDirections.length>0){
+            this.direction = this.arrWithDirections[0];
+            this.updatePosition();
+            this.arrWithDirections.shift();
         }
-        return false;
+        else{
+            this.updatePosition();
+        }        
+        
     }
-
+    
     changeDirection(direction: Direction){
         if(this.direction===Direction.East && direction===Direction.West){
+            this.arrWithDirections.push(this.direction)
             return this.direction
         }else if(this.direction===Direction.West && direction===Direction.East){
+            this.arrWithDirections.push(this.direction)
             return this.direction
         }else if(this.direction===Direction.South && direction===Direction.North){
+            this.arrWithDirections.push(this.direction)
             return this.direction
         } else if(this.direction===Direction.North && direction===Direction.South){
+            this.arrWithDirections.push(this.direction)
             return this.direction
         } 
 
         else{
             this.direction = direction;
+            this.arrWithDirections.push(this.direction)
         }
+
+        
 
     }
 }

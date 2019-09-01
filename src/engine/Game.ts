@@ -49,6 +49,7 @@ export class Game {
         }
 
         return false;
+        
     }
 
     getRandomApple(snake: Cell[], field: Cell[]){

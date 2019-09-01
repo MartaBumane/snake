@@ -27,9 +27,6 @@ table td.snake {
   background-color: #cddbf6;
 }
 
-table td.wall {
-  background-color: #39da19;
-}
 
 table td.apple {
   background-color: red;
@@ -37,7 +34,7 @@ table td.apple {
 
 
 .gameOver {
-  background-color: rgb(230, 230, 127);
+  background-color: rgb(230, 168, 127);
   color: black;
   
 }

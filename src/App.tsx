@@ -7,21 +7,21 @@ const game = new Game();
 let appleInGame = game.getApple()
 
 
-const isAppleInside=(x:number, y:number)=>{
+const isAppleInside = (x: number, y: number) => {
   return appleInGame.x === x && appleInGame.y === y
 
 }
 const snake = new Snake(isAppleInside);
 
-const cssClass = (x: number, y:number): string=>{
-  if(snake.isOnCell(x,y)){
+const cssClass = (x: number, y: number): string => {
+  if (snake.isOnCell(x, y)) {
     return 'snake'
   }
-  if(appleInGame.x===x&&appleInGame.y===y){
+  if (appleInGame.x === x && appleInGame.y === y) {
     return 'apple'
   }
-    return ''
-  
+  return ''
+
 }
 
 const width = game.field.fieldWidth;
@@ -40,18 +40,24 @@ function parseDirection(e: KeyboardEvent): Direction | null {
       return Direction.West;
   }
   return null;
- }
+}
 
-
-document.addEventListener('keyup', (e)=>{
+let moves = []
+document.addEventListener('keyup', (e) => {
   e.preventDefault();
   const direction = parseDirection(e)
 
-  if(direction){
+  if (direction) {
     snake.changeDirection(direction);
   }
-  
+
 })
+let upDate: () => void;
+setInterval(() => {
+  if (upDate) {
+    upDate();
+  }
+}, 350);
 
 const App: React.FC = () => {
   const [cells, setCells] = useState<Cell[]>(snake.getCells());
@@ -60,32 +66,35 @@ const App: React.FC = () => {
 
   appleInGame = apple;
 
-  if(game.isSnakeInSamePositionWithApple(snake.cells, apple)){
-    snake.move();    
-    setApple(game.getRandomApple(cells, game.cells))
-    setCells([...cells]);
-  }else{
-    setTimeout(()=>{
+  function updatePosition() {
+    if (snake.isGameOver()){
+      setGameOver(true);
+      return
+    }
+    if (game.isSnakeInSamePositionWithApple(snake.cells, apple)) {
       snake.move();
-      setCells([...cells]);
-    },350)
-
+      setApple(game.getRandomApple(cells, game.cells))
+      setCells(snake.getCells());
+    } else {
+      snake.move();
+      setCells(snake.getCells());
+    }
   }
 
-  console.log(snake.isGameOver(snake.getCells()));
+  upDate = updatePosition;
 
-  return (<div className='App'>
+  return (<div className={`App ${gameOver ? 'gameOver' : ''}`}>
     <h1>Snake</h1>
     <table>
       <tbody>
         {Array(height)
           .fill(null)
           .map((_, y: number) => (
-            <tr key = {y}>
+            <tr key={y}>
               {Array(width)
                 .fill(null)
                 .map((_, x: number) => (
-                  <td key = {`${y}${x}`} className={cssClass(x,y)} />
+                  <td key={`${y}${x}`} className={cssClass(x, y)} />
                 ))}
             </tr>
           ))}
