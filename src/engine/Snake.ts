@@ -19,7 +19,7 @@ export class Snake {
         new Cell(1, 0),
         new Cell(2, 0)
     ]
-    
+
     isAppleInside?: (x: number, y: number) => boolean;
 
     fieldLength = game.field.fieldHeight * game.field.fieldWidth;
@@ -28,13 +28,13 @@ export class Snake {
         this.isAppleInside = isAppleInside;
     }
 
-    reset(): Cell[]{
+    reset(): Cell[] {
         this.cells = [
             new Cell(0, 0),
             new Cell(1, 0),
             new Cell(2, 0)
         ]
-        
+
         return this.cells
     }
 

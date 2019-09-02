@@ -26,7 +26,7 @@ export class Game {
             }
         }
     }
-    
+
 
     getField() {
         return [...this.cells]
