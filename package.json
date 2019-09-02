@@ -19,7 +19,8 @@
     "test": "react-scripts test",
     "prettier": "prettier --write src/*.tsx",
     "prettier:check": "prettier --check src/*.tsx",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "citest": "CI=true react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
