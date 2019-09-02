@@ -1,7 +1,5 @@
 import { Snake, Direction } from './Snake'
-import { Cell, Game } from './Game'
-const game = new Game();
-const fieldLength = game.field.fieldHeight * game.field.fieldWidth
+import { Cell } from './Cell'
 
 describe('Snake', () => {
     it('should have initial position', () => {
@@ -9,11 +7,11 @@ describe('Snake', () => {
         const cells = snake.getCells();
 
         expect(cells).toEqual(
-            [
-                new Cell(0, 0),
-                new Cell(1, 0),
-                new Cell(2, 0)
-            ]
+        [
+            new Cell(0, 0),
+            new Cell(1, 0),
+            new Cell(2, 0)
+        ]
         );
     })
 
@@ -23,11 +21,11 @@ describe('Snake', () => {
         const cells = snake.getCells();
 
         expect(cells).toEqual(
-            [
-                new Cell(1, 0),
-                new Cell(2, 0),
-                new Cell(3, 0)
-            ]
+        [
+            new Cell(1, 0),
+            new Cell(2, 0),
+            new Cell(3, 0)
+        ]
         );
     })
 
@@ -38,11 +36,11 @@ describe('Snake', () => {
         const cells = snake.getCells();
 
         expect(cells).toEqual(
-            [
-                new Cell(1, 0),
-                new Cell(2, 0),
-                new Cell(2, 1)
-            ]
+        [
+            new Cell(1, 0),
+            new Cell(2, 0),
+            new Cell(2, 1)
+        ]
         );
     })
 
@@ -65,11 +63,11 @@ describe('Snake', () => {
         const cells = snake.getCells();
 
         expect(cells).toEqual(
-            [
-                new Cell(5, 2),
-                new Cell(5, 1),
-                new Cell(5, 0)
-            ]
+        [
+            new Cell(5, 2),
+            new Cell(5, 1),
+            new Cell(5, 0)
+        ]
         );
     })
 
@@ -82,11 +80,11 @@ describe('Snake', () => {
         const cells = snake.getCells();
 
         expect(cells).toEqual(
-            [
-                new Cell(2, 0),
-                new Cell(2, 1),
-                new Cell(1, 1)
-            ]
+        [
+            new Cell(2, 0),
+            new Cell(2, 1),
+            new Cell(1, 1)
+        ]
         );
     })
 
@@ -117,13 +115,13 @@ describe('Snake', () => {
         const cells = snake.getCells();
 
         expect(cells).toEqual(
-            [
-                new Cell(0, 0),
-                new Cell(1, 0),
-                new Cell(2, 0),
-                new Cell(3, 0)
+        [
+            new Cell(0, 0),
+            new Cell(1, 0),
+            new Cell(2, 0),
+            new Cell(3, 0)
 
-            ]
+        ]
         );
     })
 
@@ -145,11 +143,11 @@ describe('Snake', () => {
         let cells = snake.getCells();
 
         expect(cells).toEqual(
-            [
-                new Cell(23, 0),
-                new Cell(24, 0),
-                new Cell(0, 0)
-            ]
+        [
+            new Cell(23, 0),
+            new Cell(24, 0),
+            new Cell(0, 0)
+        ]
         );
 
         snake.changeDirection(Direction.South);
@@ -161,11 +159,11 @@ describe('Snake', () => {
         cells = snake.getCells();
 
         expect(cells).toEqual(
-            [
-                new Cell(0, 0),
-                new Cell(0, 1),
-                new Cell(24, 1)
-            ]
+        [
+            new Cell(0, 0),
+            new Cell(0, 1),
+            new Cell(24, 1)
+        ]
         );
 
         snake.changeDirection(Direction.South);
@@ -177,11 +175,11 @@ describe('Snake', () => {
         cells = snake.getCells();
 
         expect(cells).toEqual(
-            [
-                new Cell(24, 23),
-                new Cell(24, 24),
-                new Cell(24, 0)
-            ]
+        [
+            new Cell(24, 23),
+            new Cell(24, 24),
+            new Cell(24, 0)
+        ]
         );
 
         snake.changeDirection(Direction.West);
@@ -193,11 +191,11 @@ describe('Snake', () => {
         cells = snake.getCells();
 
         expect(cells).toEqual(
-            [
-                new Cell(24, 0),
-                new Cell(23, 0),
-                new Cell(23, 24)
-            ]
+        [
+            new Cell(24, 0),
+            new Cell(23, 0),
+            new Cell(23, 24)
+        ]
         );
     })
 
@@ -244,6 +242,24 @@ describe('Snake', () => {
 
         snake.move();
         expect(snake.getDirection()).toBe(Direction.North);
+
+    })
+
+    it('should be the same as first time, after reset', () => {
+        const snake = new Snake();
+
+        snake.move();
+        snake.move();
+        snake.move();
+
+        const cells =  snake.reset();
+        expect(cells).toEqual(
+        [
+            new Cell(0, 0),
+            new Cell(1, 0),
+            new Cell(2, 0)
+        ]
+        );
 
     })
 

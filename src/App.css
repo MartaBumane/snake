@@ -1,5 +1,5 @@
 .App {
-  background-color: #282c34;
+  background-color: #848c9c;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,8 @@
   color: white;
 }
 
-table {
+.Tab {
+  background-color: #282c34;
   border: #cecece solid 1px;
   border-spacing: 1px;
 
@@ -34,7 +35,17 @@ table td.apple {
 
 
 .gameOver {
-  background-color: rgb(230, 168, 127);
-  color: black;
+  background-color: rgb(216, 146, 105);
+  color: rgb(5, 5, 5);
   
+}
+
+h3 {
+  padding: 10px;
+  color: rgb(90, 24, 24);
+  margin: 0
+}
+
+.reset {
+  margin: 10px;
 }
