@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Snake, Direction } from "./engine/Snake";
-import { Game } from "./engine/Game";
-import { Cell } from "./engine/Cell";
+import { Snake, Direction } from "./Snake";
+import { Game } from "./Game";
+import { Cell } from "./Cell";
 import "./App.css";
 
 const game = new Game();
