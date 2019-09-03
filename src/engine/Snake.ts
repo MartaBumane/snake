@@ -84,23 +84,23 @@ export class Snake {
             this.cells[this.cells.length - 1].x = 0;
         }
 
-        if (!this.isAppleInside || !this.isAppleInside(head.x, head.y)) {
-            this.cells.shift();
-        }
-
-
+        
+        
         if (this.direction === Direction.East) {
             this.cells.push(new Cell(head.x + 1, head.y))
-
+            
         } else if (this.direction === Direction.South) {
             this.cells.push(new Cell(head.x, head.y + 1))
-
+            
         } else if (this.direction === Direction.North) {
-
+            
             this.cells.push(new Cell(head.x, head.y - 1))
         } else if (this.direction === Direction.West) {
-
+            
             this.cells.push(new Cell(head.x - 1, head.y))
+        }
+        if (!this.isAppleInside || !this.isAppleInside(head.x, head.y)) {
+            this.cells.shift();
         }
         if (this.cells[this.cells.length - 1].x > game.field.fieldWidth - 1) {
             this.cells[this.cells.length - 1].x = 0

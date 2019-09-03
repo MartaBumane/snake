@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import "./App.css";
 import { Snake, Direction } from "./engine/Snake";
 import { Game } from "./engine/Game";
 import { Cell } from "./engine/Cell";
+import "./App.css";
 
 const game = new Game();
+let isThisGameOver = false;
 let applesInGame = game.getApples();
 const appleCount = 5;
+const width = game.field.fieldWidth;
+const height = game.field.fieldHeight;
+let snakeSpeed = 150;
 
 const isAppleInside = (x: number, y: number): boolean => {
   for (let i = 0; i < applesInGame.length; i++) {
@@ -31,8 +35,6 @@ const cssClass = (x: number, y: number): string => {
   return "";
 };
 
-const width = game.field.fieldWidth;
-const height = game.field.fieldHeight;
 
 function parseDirection(e: KeyboardEvent): Direction | null {
   switch (e.key) {
@@ -49,20 +51,23 @@ function parseDirection(e: KeyboardEvent): Direction | null {
 }
 
 document.addEventListener("keyup", e => {
-  e.preventDefault();
-  const direction = parseDirection(e);
+  if (!isThisGameOver) {
+    e.preventDefault();
+    const direction = parseDirection(e);
 
-  if (direction) {
-    snake.changeDirection(direction);
+    if (direction) {
+      snake.changeDirection(direction);
+    }
   }
 });
+
 let upDate: () => void;
 
 setInterval(() => {
   if (upDate) {
     upDate();
   }
-}, 150);
+}, snakeSpeed);
 
 const App: React.FC = () => {
   const [cells, setCells] = useState<Cell[]>(snake.getCells());
@@ -75,6 +80,7 @@ const App: React.FC = () => {
   applesInGame = apples;
 
   function reset(): void {
+    isThisGameOver = false;
     snake.arrWithDirections = [];
     snake.cells = snake.reset();
     snake.direction = Direction.East;
@@ -85,6 +91,7 @@ const App: React.FC = () => {
 
   function updatePosition() {
     if (snake.isGameOver()) {
+      isThisGameOver = true;
       setGameOver(true);
       return;
     }
@@ -93,6 +100,7 @@ const App: React.FC = () => {
       snake.move();
       setApples(game.applesRemoveTheEatenOne(snake.cells, apples));
       if (apples.length < 1) {
+        snakeSpeed = snakeSpeed - 100;
         setLevel(level + 1);
         setApples(game.getRandomApples(cells, game.cells, appleCount));
       }
