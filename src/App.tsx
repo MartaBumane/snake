@@ -13,7 +13,6 @@ const height = game.field.fieldHeight;
 let snakeSpeed = 300;
 let startSpeed = 300;
 
-
 const isAppleInside = (x: number, y: number): boolean => {
   for (let i = 0; i < applesInGame.length; i++) {
     if (applesInGame[i].x === x && applesInGame[i].y === y) {
@@ -36,7 +35,6 @@ const cssClass = (x: number, y: number): string => {
   }
   return "";
 };
-
 
 function parseDirection(e: KeyboardEvent): Direction | null {
   switch (e.key) {
@@ -70,11 +68,11 @@ let timer = setInterval(() => {
   }
 }, snakeSpeed);
 
-
 const App: React.FC = () => {
-
   const [cells, setCells] = useState<Cell[]>(snake.getCells());
-  const [apples, setApples] = useState<Cell[]>(game.getRandomApples(snake.cells, game.cells, appleCount));
+  const [apples, setApples] = useState<Cell[]>(
+    game.getRandomApples(snake.cells, game.cells, appleCount)
+  );
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [level, setLevel] = useState<number>(1);
   const [speed, setSpeed] = useState<number>(snakeSpeed);
@@ -100,7 +98,6 @@ const App: React.FC = () => {
 
   function updatePosition() {
     if (snake.isGameOver()) {
-     
       isThisGameOver = true;
       setGameOver(true);
       return;
