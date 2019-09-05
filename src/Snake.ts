@@ -128,7 +128,6 @@ export class Snake {
         else {
             this.updatePosition();
         }
-
     }
 
     changeDirection(direction: Direction) {
@@ -150,9 +149,6 @@ export class Snake {
             this.direction = direction;
             this.arrWithDirections.push(this.direction)
         }
-
-
-
     }
 }
 
