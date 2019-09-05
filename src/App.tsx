@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Snake, Direction } from "./Snake";
 import { Game } from "./Game";
 import { Cell } from "./Cell";
@@ -10,7 +10,9 @@ let applesInGame = game.getApples();
 const appleCount = 5;
 const width = game.field.fieldWidth;
 const height = game.field.fieldHeight;
-let snakeSpeed = 150;
+let snakeSpeed = 300;
+let startSpeed = 300;
+
 
 const isAppleInside = (x: number, y: number): boolean => {
   for (let i = 0; i < applesInGame.length; i++) {
@@ -62,21 +64,22 @@ document.addEventListener("keyup", e => {
 });
 
 let upDate: () => void;
-
-setInterval(() => {
+let timer = setInterval(() => {
   if (upDate) {
     upDate();
   }
 }, snakeSpeed);
 
+
 const App: React.FC = () => {
+
   const [cells, setCells] = useState<Cell[]>(snake.getCells());
-  const [apples, setApples] = useState<Cell[]>(
-    game.getRandomApples(snake.cells, game.cells, appleCount)
-  );
+  const [apples, setApples] = useState<Cell[]>(game.getRandomApples(snake.cells, game.cells, appleCount));
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [level, setLevel] = useState<number>(1);
+  const [speed, setSpeed] = useState<number>(snakeSpeed);
 
+  snakeSpeed = speed;
   applesInGame = apples;
 
   function reset(): void {
@@ -87,10 +90,17 @@ const App: React.FC = () => {
     setApples(game.getRandomApples(cells, game.cells, appleCount));
     setGameOver(false);
     setLevel(1);
+    clearInterval(timer);
+    timer = setInterval(() => {
+      if (upDate) {
+        upDate();
+      }
+    }, startSpeed);
   }
 
   function updatePosition() {
     if (snake.isGameOver()) {
+     
       isThisGameOver = true;
       setGameOver(true);
       return;
@@ -100,7 +110,14 @@ const App: React.FC = () => {
       snake.move();
       setApples(game.applesRemoveTheEatenOne(snake.cells, apples));
       if (apples.length < 1) {
-        snakeSpeed = snakeSpeed - 100;
+        clearInterval(timer);
+        setSpeed(speed - 50);
+        timer = setInterval(() => {
+          if (upDate) {
+            upDate();
+          }
+        }, snakeSpeed);
+
         setLevel(level + 1);
         setApples(game.getRandomApples(cells, game.cells, appleCount));
       }
